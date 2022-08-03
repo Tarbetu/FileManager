@@ -18,10 +18,10 @@ method view(app: AppState): Widget =
             FlowBoxChild {.add_child.}:
               Box(orient = OrientY):
                   Icon:
-                    name = "emblem-documents"
+                    name = file.getIconName
                     pixel_size = 64
-                  Button:
-                    text = file.string
+                  Button {.expand: false.}:
+                    text = file.fileName
                     proc clicked() =
                       if file.isDir:
                         app.currentView.location = file.absolutePath

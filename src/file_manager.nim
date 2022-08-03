@@ -1,5 +1,6 @@
 import owlkettle
 import state/current
+import state/path
 import options
 
 viewable App:
@@ -19,8 +20,18 @@ method view(app: AppState): Widget =
                   Icon:
                     name = "emblem-documents"
                     pixel_size = 64
-                  Label:
+                  Button:
                     text = file.string
+                    proc clicked() =
+                      if file.isDir:
+                        app.currentView.location = file.absolutePath
+                        app.currentView.locationHistory.add file.absolutePath
+                      else:
+                        if file.isExecutable:
+                          file.runExecutable
+                        else:
+                          file.runFile
+
 
 when isMainModule:
   brew gui(App(
